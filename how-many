@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
 
-# expects the following format for commandline options
-#  ./howmany <unit> in <number> <unit>
 #
+# Utility that answers the questions:
+#   How many seconds in 1 month?
+#   How many minutes in 39458494 seconds?
+#   How many seconds till 10:00pm?
+#   How many months till 2034-12-2?
+#   ...and many more
+#
+
 module HowMuch
     class App
         @version = "0.0.1"
@@ -10,8 +16,8 @@ module HowMuch
             STDERR.puts <<USAGE
 usage:
 
-./howmany <units> in NUMBER <units> [options]
-./howmany <units> till <time|date|datetime> [options]
+./how-many <units> in NUMBER <units> [options]
+./how-many <units> till <time|date|datetime> [options]
 
 units       is one of the following: seconds, minutes, days, weeks,
             months, or years. The first unit specified is usually the smaller.
@@ -27,8 +33,12 @@ till        calculate how many units till time/datetime. For example,
 
 time        is a time specified as hh:mm:ss (am|pm) in 12h or 24h
 
-datetime    is a datetime, with time formatted as described above,
-            and date being whatever your local date format is.
+date        is a date, specified in whatever your local date format is.
+            Remember to escape special shell chars (if any) and spaces, or
+            just surround your date with quotes.
+
+datetime    is a datetime, with date formatted as described as above,
+            and time formatted as described above also.
 USAGE
         end
 
