@@ -9,12 +9,23 @@
 #   ...and many more
 #
 
+require "optparse"
+
 module HowMuch
-    class App
-        @version = "0.0.1"
-        def display_usage
-            STDERR.puts <<USAGE
-usage:
+    class OptionsParser
+        class Options
+            attr_accessor :type
+
+            def initialize
+                self.type = :float
+            end
+        end
+
+        def self.parse(args)
+            @options = Options.new
+            @parser ||= OptionParser.new do |parser|
+                parser.banner = <<USAGE
+Usage:
 
 ./how-many <units> in NUMBER <units> [options]
 ./how-many <units> till <time|date|datetime> [options]
@@ -40,6 +51,34 @@ date        is a date, specified in whatever your local date format is.
 datetime    is a datetime, with date formatted as described as above,
             and time formatted as described above also.
 USAGE
+                parser.separator ""
+                parser.separator "Options"
+
+                parser.on("-tTYPE", "--type=TYPE", [:f, :float, :i, :integer, :int],
+                          "output type, f for float (default), i for integer (result will be rounded up)") do |type|
+                    p.type
+                    @options.type = type
+                end
+
+                parser.on_tail("-h", "--help", "show this message") do
+                    puts parser
+                    exit
+                end
+                parser.on_tail("-V", "--version", "show program version") do
+                    puts App.version
+                    exit
+                end
+            end.parse!
+
+            @options
+        end
+    end
+
+    class App
+        @@version = "0.0.1"
+        
+        def self.version
+            @@version
         end
 
         def parse_positional_parameters(args)
@@ -100,6 +139,7 @@ USAGE
         end
 
         def run(args)
+            OptionsParser.parse(args)
             unless args.length < 4
                 parse_positional_parameters(args)
                 do_calculations
