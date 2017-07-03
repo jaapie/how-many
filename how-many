@@ -95,9 +95,9 @@ USAGE
                 parser.separator ""
                 parser.separator "Options"
 
-                parser.on("-tTYPE", "--type=TYPE", [:f, :float, :i, :integer, :int],
-                          "output type, f for float (default), i for integer (result will be rounded up)") do |type|
-                    p.type
+                parser.on("-tTYPE", "--type=TYPE", ["float", "integer"],
+                          "output type, f for float (default), i for integer") do |type|
+                    p type
                     @options.type= type
                 end
 
