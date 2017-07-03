@@ -1,0 +1,105 @@
+#!/usr/bin/env ruby
+
+# expects the following format for commandline options
+#  ./howmany <unit> in <number> <unit>
+#
+module HowMuch
+    class App
+        @version = "0.0.1"
+        def display_usage
+            STDERR.puts <<USAGE
+usage:
+
+./howmany <units> in NUMBER <units> [options]
+./howmany <units> till <time|date|datetime> [options]
+
+units       is one of the following: seconds, minutes, days, weeks,
+            months, or years. The first unit specified is usually the smaller.
+
+in          unit conversion from the first units specified to the second. For
+            example, specifying ./howmany seconds in 24 hours will tell you
+            how many seconds are in 24 hours.
+
+till        calculate how many units till time/datetime. For example,
+            specifying ./howmany days till 2020/08/10 will tell you how many
+            days it is until the 8th of October 2020.
+
+time        is a time specified as hh:mm:ss (am|pm) in 12h or 24h
+
+datetime    is a datetime, with time formatted as described above,
+            and date being whatever your local date format is.
+USAGE
+        end
+
+        def parse_positional_parameters(args)
+            units_pattern =/(second|minute|hour|day|week|fortnight|month|year)/
+
+            @to_units = args.shift
+            raise "to units invalid" unless @to_units.match units_pattern
+
+            @operation = args.shift
+            raise "operation invalid" unless @operation.match /(in|till)/
+
+            @from_number = args.shift.to_f
+            raise "number invalid" unless @from_number > 0.0
+
+            @from_units = args.shift
+            raise "from units invalid" unless @from_units.match units_pattern
+            
+            #strip the 's' from the end of the unit word
+            unless @to_units.match /.*s$/
+                @to_units = @to_units.slice 0, @to_units.length - 1
+            end
+
+            # remove the trailing s on plural time period names
+            if @from_units.match /.*s$/
+                @from_units = @from_units.slice 0, @from_units.length - 1
+            end
+
+            if @to_units.match /.*s$/
+                @to_units = @to_units.slice 0, @to_units.length - 1
+            end
+        end
+
+        def do_calculations
+            # raise "only seconds are supported to convert to" unless @to_units == "seconds"
+            #raise "only hours are supported to convert from" unless @from_units == "hours"
+
+            seconds_in = {
+                "second" => 1,
+                "minute" => 60,
+                "hour" => (60*60),
+                "day" => (3600*24),
+                "week" => (3600*24*7),
+                "fortnight" => (3600*24*7*2),
+                "month" => (3600*24*7*(52.1429/12)),
+                "year" => (3600*24*7*52.1429)
+            }
+
+            # calculate the result in seconds
+            result_seconds = @from_number * (seconds_in[@from_units])
+
+            # unless the units wanted are not secons, display the result,
+            # otherwise calculate the result in whatever units are wanted
+            unless @to_units != "seconds"
+                puts result_seconds
+            else
+                result = result_seconds / (seconds_in[@to_units])
+                puts result
+            end
+        end
+
+        def run(args)
+            unless args.length < 4
+                parse_positional_parameters(args)
+                do_calculations
+            else
+                display_usage
+            end
+        end
+    end
+
+end
+
+app = HowMuch::App.new
+app.run(ARGV)
