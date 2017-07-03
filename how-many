@@ -150,7 +150,7 @@ USAGE
                 result = result_seconds / (seconds_in[@options.to_units])
             end
 
-            STDOUT.puts result
+            STDOUT.puts @options.type == "integer" ? result.to_i : result
         end
 
         def run(args)
