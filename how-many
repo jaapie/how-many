@@ -92,10 +92,10 @@ USAGE
             # unless the units wanted are not secons, display the result,
             # otherwise calculate the result in whatever units are wanted
             unless @to_units != "seconds"
-                puts result_seconds
+                STDOUT.puts result_seconds
             else
                 result = result_seconds / (seconds_in[@to_units])
-                puts result
+                STDOUT.puts result
             end
         end
 
