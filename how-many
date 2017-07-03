@@ -14,15 +14,56 @@ require "optparse"
 module HowMuch
     class OptionsParser
         class Options
-            attr_accessor :type
+            attr_accessor :type, :to_units, :operation, :from_units, :from_number
 
             def initialize
                 self.type = :float
+                self.to_units = "second"
+                self.operation = "in"
+                self.from_units = "year"
+                self.from_number = 1
+            end
+        end
+
+        def self.parse_positional_parameters(args)
+            units_pattern =/(second|minute|hour|day|week|fortnight|month|year)/
+
+            @options ||= Options.new
+
+            @options.to_units= args.shift
+            raise "to units invalid" unless @options.to_units.match units_pattern
+
+            @options.operation= args.shift
+            raise "operation invalid" unless @options.operation.match /(in|till)/
+
+            @options.from_number= args.shift.to_f
+            raise "number invalid" unless @options.from_number > 0.0
+
+            @options.from_units= args.shift
+            raise "from units invalid" unless @options.from_units.match units_pattern
+
+            #strip the 's' from the end of the unit word
+            unless @options.to_units.match /.*s$/
+                @options.to_units= @options.to_units.slice 0, @options.to_units.length - 1
+            end
+
+            # remove the trailing s on plural time period names
+            if @options.from_units.match /.*s$/
+                @options.from_units= @options.from_units.slice 0, @options.from_units.length - 1
+            end
+
+            if @options.to_units.match /.*s$/
+                @options.to_units= @options.to_units.slice 0, @options.to_units.length - 1
             end
         end
 
         def self.parse(args)
             @options = Options.new
+
+            unless args[0].match /^-/
+                self.parse_positional_parameters args
+            end
+
             @parser ||= OptionParser.new do |parser|
                 parser.banner = <<USAGE
 Usage:
@@ -57,7 +98,7 @@ USAGE
                 parser.on("-tTYPE", "--type=TYPE", [:f, :float, :i, :integer, :int],
                           "output type, f for float (default), i for integer (result will be rounded up)") do |type|
                     p.type
-                    @options.type = type
+                    @options.type= type
                 end
 
                 parser.on_tail("-h", "--help", "show this message") do
@@ -68,7 +109,9 @@ USAGE
                     puts App.version
                     exit
                 end
-            end.parse!
+            end
+
+            @parser.parse!(args)
 
             @options
         end
@@ -76,43 +119,14 @@ USAGE
 
     class App
         @@version = "0.0.1"
-        
+        @options = {}
+
         def self.version
             @@version
         end
 
-        def parse_positional_parameters(args)
-            units_pattern =/(second|minute|hour|day|week|fortnight|month|year)/
-
-            @to_units = args.shift
-            raise "to units invalid" unless @to_units.match units_pattern
-
-            @operation = args.shift
-            raise "operation invalid" unless @operation.match /(in|till)/
-
-            @from_number = args.shift.to_f
-            raise "number invalid" unless @from_number > 0.0
-
-            @from_units = args.shift
-            raise "from units invalid" unless @from_units.match units_pattern
-            
-            #strip the 's' from the end of the unit word
-            unless @to_units.match /.*s$/
-                @to_units = @to_units.slice 0, @to_units.length - 1
-            end
-
-            # remove the trailing s on plural time period names
-            if @from_units.match /.*s$/
-                @from_units = @from_units.slice 0, @from_units.length - 1
-            end
-
-            if @to_units.match /.*s$/
-                @to_units = @to_units.slice 0, @to_units.length - 1
-            end
-        end
-
         def do_calculations
-            raise "till operation not yet implemented" if @operation == "till"
+            raise "till operation not yet implemented" if @options.operation == "till"
 
             seconds_in = {
                 "second" => 1,
@@ -126,26 +140,21 @@ USAGE
             }
 
             # calculate the result in seconds
-            result_seconds = @from_number * (seconds_in[@from_units])
+            result_seconds = @options.from_number * (seconds_in[@options.from_units])
 
             # unless the units wanted are not secons, display the result,
             # otherwise calculate the result in whatever units are wanted
-            unless @to_units != "seconds"
+            unless @options.to_units != "seconds"
                 STDOUT.puts result_seconds
             else
-                result = result_seconds / (seconds_in[@to_units])
+                result = result_seconds / (seconds_in[@options.to_units])
                 STDOUT.puts result
             end
         end
 
         def run(args)
-            OptionsParser.parse(args)
-            unless args.length < 4
-                parse_positional_parameters(args)
-                do_calculations
-            else
-                display_usage
-            end
+            @options = OptionsParser.parse(args)
+            do_calculations
         end
     end
 
