@@ -145,11 +145,12 @@ USAGE
             # unless the units wanted are not secons, display the result,
             # otherwise calculate the result in whatever units are wanted
             unless @options.to_units != "seconds"
-                STDOUT.puts result_seconds
+                result = result_seconds
             else
                 result = result_seconds / (seconds_in[@options.to_units])
-                STDOUT.puts result
             end
+
+            STDOUT.puts result
         end
 
         def run(args)
