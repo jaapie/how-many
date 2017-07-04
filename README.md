@@ -60,6 +60,10 @@ probably find a GUI for what you want anyhow.
 I welcome comments, criticisms, praise, pointers to tools that already did
 this, and most of all contributions in the form of pull-requests.
 
+## License
+This work is distributed under the MIT license as you can read about in
+the LICENSE.md file.
+
 ## Author
 `how-many` was written by me, Jacob Degeling, in my spare time. I am a School
 IT Manager whose first love in the computer world was programming.
