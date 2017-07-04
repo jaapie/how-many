@@ -1,4 +1,4 @@
-#How Many?
+# How Many?
 
 `how-many` is a small Ruby CLI script that answers questions like: "How many
 seconds are there in a year", and many more.
@@ -27,6 +27,10 @@ The script understands the following time units:
    - months
    - years
 
+By default, results will be displayed as floating point numbers, however you
+can pass the `-t` option (use the -h or --help option for more information) to
+choose integer, in which case the number is rounded up.
+
 It uses the definition that a year is 52.1429 weeks. There are `24.0072` hours
 in `0.1429` weeks.
 
@@ -42,6 +46,10 @@ or
 ```
 $how-many days till 2020-02-20
 ```
+
+## Contributing
+I welcome comments, criticisms, praise, pointers to tools that already did
+this, and most of all contributions in the form of pull-requests.
 
 ## Author
 `how-many` was written by me, Jacob Degeling, in my spare time. I am a School
