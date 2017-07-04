@@ -8,6 +8,9 @@
 #   How many months till 2034-12-2?
 #   ...and many more
 #
+#   Created by Jacob Degeling (C) 2017
+#   Distributed under the MIT license
+#
 
 require "optparse"
 
