@@ -31,16 +31,16 @@ module HowMuch
             @options ||= Options.new
 
             @options.to_units= args.shift
-            raise "to units invalid" unless @options.to_units.match units_pattern
+            raise OptionParser::InvalidArgument.new("to units") unless @options.to_units.match units_pattern
 
             @options.operation= args.shift
-            raise "operation invalid" unless @options.operation.match /(in|till)/
+            raise OptionParser::InvalidArgument.new("operation") unless @options.operation.match /(in|till)/
 
             @options.from_number= args.shift.to_f
-            raise "number invalid" unless @options.from_number > 0.0
+            raise OptionParser::InvalidArgument.new("number") unless @options.from_number > 0.0
 
             @options.from_units= args.shift
-            raise "from units invalid" unless @options.from_units.match units_pattern
+            raise OptionParser::InvalidArgument.new("from units") unless @options.from_units.match units_pattern
 
             #strip the 's' from the end of the unit word
             unless @options.to_units.match /.*s$/
