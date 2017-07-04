@@ -157,7 +157,13 @@ USAGE
         end
 
         def run(args)
-            @options = OptionsParser.parse(args)
+            begin
+                @options = OptionsParser.parse(args)
+            rescue OptionParser::InvalidArgument, OptionParser::MissingArgument, OptionParser::InvalidOption => exception
+                warn exception.message
+                warn "For usage information, use -h or --help"
+                exit 1
+            end
             do_calculations
         end
     end
