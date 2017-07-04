@@ -47,6 +47,15 @@ or
 $how-many days till 2020-02-20
 ```
 
+## Using the Script
+The script is pretty basic in that that is all it is. You just need to copy it
+to a place on your `$PATH` so you can use it anywhere, or put it somewhere and
+call it by prepending `./` (if it is in the current directory) or its path (if
+it is anywhere else).
+
+I'm not sure how'd you go getting it running on windows, but you could
+probably find a GUI for what you want anyhow.
+
 ## Contributing
 I welcome comments, criticisms, praise, pointers to tools that already did
 this, and most of all contributions in the form of pull-requests.
