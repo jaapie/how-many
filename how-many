@@ -100,6 +100,8 @@ USAGE
                     @options.type= type
                 end
 
+                parser.separator ""
+                parser.separator "Metadata Options"
                 parser.on_tail("-h", "--help", "show this message") do
                     puts parser
                     exit
