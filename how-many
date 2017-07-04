@@ -60,6 +60,8 @@ module HowMuch
         def self.parse(args)
             @options = Options.new
 
+            args.push('-h') if args.empty?
+
             unless args[0].match /^-/
                 self.parse_positional_parameters args
             end
