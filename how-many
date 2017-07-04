@@ -95,7 +95,7 @@ datetime    is a datetime, with date formatted as described as above,
             and time formatted as described above also.
 USAGE
                 parser.separator ""
-                parser.separator "Options"
+                parser.separator "Options:"
 
                 parser.on("-tTYPE", "--type=TYPE", ["float", "integer"],
                           "output type, f for float (default), i for integer") do |type|
@@ -103,7 +103,7 @@ USAGE
                 end
 
                 parser.separator ""
-                parser.separator "Metadata Options"
+                parser.separator "Metadata Options:"
                 parser.on_tail("-h", "--help", "show this message") do
                     puts parser
                     exit
