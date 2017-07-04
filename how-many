@@ -97,7 +97,6 @@ USAGE
 
                 parser.on("-tTYPE", "--type=TYPE", ["float", "integer"],
                           "output type, f for float (default), i for integer") do |type|
-                    p type
                     @options.type= type
                 end
 
