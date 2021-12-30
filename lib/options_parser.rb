@@ -1,4 +1,4 @@
-equire "optparse"
+require "optparse"
 
 module HowMany
   class OptionsParser
