@@ -14,7 +14,7 @@
 
 require "optparse"
 
-module HowMuch
+module HowMany
     class OptionsParser
         class Options
             attr_accessor :type, :to_units, :operation, :from_units, :from_number
@@ -173,5 +173,5 @@ USAGE
 
 end
 
-app = HowMuch::App.new
+app = HowMany::App.new
 app.run(ARGV)
