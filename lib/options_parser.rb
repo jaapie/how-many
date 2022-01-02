@@ -6,7 +6,7 @@ module HowMany
       attr_accessor :type, :to_units, :operation, :from_units, :from_number
 
       def initialize
-        self.type = :float
+        self.type = "float"
         self.to_units = "second"
         self.operation = "in"
         self.from_units = "year"
