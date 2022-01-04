@@ -18,9 +18,10 @@ GEM
 
 PLATFORMS
   aarch64-linux
+  x86_64-linux
 
 DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   2.2.22
+   2.2.32
