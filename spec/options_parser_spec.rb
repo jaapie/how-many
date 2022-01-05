@@ -1,5 +1,5 @@
 require('spec_helper')
-require_relative('../lib/options_parser')
+require('options_parser')
 
 RSpec.describe HowMany::OptionsParser do
   let(:args) { ['seconds', 'in', '1', 'minute'] }
