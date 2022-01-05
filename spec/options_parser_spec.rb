@@ -25,25 +25,5 @@ RSpec.describe HowMany::OptionsParser do
       result = described_class.parse(args_tf)
       expect(result.type).to eq("float")
     end
-
-    # context 'displays usage text' do
-    #   it 'when no args specified' do
-    #     expect { described_class.parse([]) }.to output(/^Usage:/).to_stdout
-    #   end
-
-    #   it 'when --help is specified' do
-    #     expect { described_class.parse(['--help']) }.to output(/^Usage:/).to_stdout
-    #   end
-
-    #   it 'when -h is specified' do
-    #     expect { described_class.parse(['-h']) }.to output(/^Usage:/).to_stdout
-    #   end
-    # end
-
-    # context 'it works' do
-    #   it 'it really does' do
-    #     expect(8).to eq(8)
-    #   end
-    # end
   end
 end
