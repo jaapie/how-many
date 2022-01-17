@@ -48,9 +48,14 @@ Metadata Options:
     end
   end
 
-  describe 'correctly performs calculations' do
-    it 'when correct args passed' do
+  describe 'correctly calculates' do
+    it 'seconds in hour' do
       expect{ system('./how-many seconds in 1 hour') }.to output("3600.0\n").to_stdout_from_any_process
     end
+
+    # it 'how many seconds till 1 second from now' do
+    #   t = Time.now + 1
+    #   expect{ system("./how-many seconds till #{t.strftime('%I:%M:%S %p')} ") }.to output("1.0\n").to_stdout_from_any_process
+    # end
   end
 end

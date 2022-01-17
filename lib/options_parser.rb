@@ -3,7 +3,7 @@ require "optparse"
 module HowMany
   class OptionsParser
     class Options
-      attr_accessor :type, :to_units, :operation, :from_units, :from_number
+      attr_accessor :type, :to_units, :operation, :from_units, :from_number, :till_time
 
       def initialize
         self.type = "float"
@@ -11,6 +11,7 @@ module HowMany
         self.operation = "in"
         self.from_units = "year"
         self.from_number = 1
+        self.till_time = "10:00pm"
       end
     end
 
@@ -25,11 +26,20 @@ module HowMany
       @options.operation= args.shift
       raise OptionParser::InvalidArgument.new("operation") unless @options.operation.match (/(in|till)/)
 
-      @options.from_number= args.shift.to_f
-      raise OptionParser::InvalidArgument.new("number") unless @options.from_number > 0.0
+      if @options.operation == "in"
+        @options.from_number= args.shift.to_f
+        raise OptionParser::InvalidArgument.new("number") unless @options.from_number > 0.0
 
-      @options.from_units= args.shift
-      raise OptionParser::InvalidArgument.new("from units") unless @options.from_units.match units_pattern
+        @options.from_units= args.shift
+        raise OptionParser::InvalidArgument.new("from units") unless @options.from_units.match units_pattern
+      elsif @options.operation == 'till'
+        begin
+          t = args.shift
+          @options.till_time = Time.parse(t)
+        rescue ArgumentError
+          raise ArgumentError.new "#{t} is not a valid time/date string"
+        end
+      end
 
       #strip the 's' from the end of the unit word
       unless @options.to_units.match(/.*s$/)
