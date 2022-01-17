@@ -23,7 +23,7 @@ module HowMany
       raise OptionParser::InvalidArgument.new("to units") unless @options.to_units.match units_pattern
 
       @options.operation= args.shift
-      raise OptionParser::InvalidArgument.new("operation") unless @options.operation.match /(in|till)/
+      raise OptionParser::InvalidArgument.new("operation") unless @options.operation.match (/(in|till)/)
 
       @options.from_number= args.shift.to_f
       raise OptionParser::InvalidArgument.new("number") unless @options.from_number > 0.0
@@ -32,16 +32,16 @@ module HowMany
       raise OptionParser::InvalidArgument.new("from units") unless @options.from_units.match units_pattern
 
       #strip the 's' from the end of the unit word
-      unless @options.to_units.match /.*s$/
+      unless @options.to_units.match(/.*s$/)
         @options.to_units= @options.to_units.slice 0, @options.to_units.length - 1
       end
 
       # remove the trailing s on plural time period names
-      if @options.from_units.match /.*s$/
+      if @options.from_units.match(/.*s$/)
         @options.from_units= @options.from_units.slice 0, @options.from_units.length - 1
       end
 
-      if @options.to_units.match /.*s$/
+      if @options.to_units.match(/.*s$/)
         @options.to_units= @options.to_units.slice 0, @options.to_units.length - 1
       end
     end
@@ -51,7 +51,7 @@ module HowMany
 
       args.push('-h') if args.empty?
 
-      unless args[0].match /^-/
+      unless args[0].match(/^-/)
         self.parse_positional_parameters args
       end
 
