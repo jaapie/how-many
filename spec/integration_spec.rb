@@ -13,7 +13,6 @@ in          unit conversion from the first units specified to the second. For
             example, specifying ./howmany seconds in 24 hours will tell you
             how many seconds are in 24 hours.
 
-**Below Options Not Implemented Yet**
 till        calculate how many units till time/datetime. For example,
             specifying ./howmany days till 2020/08/10 will tell you how many
             days it is until the 8th of October 2020.
