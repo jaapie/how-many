@@ -6,19 +6,19 @@ RSpec.describe HowMany::Calculator do
   describe '#how_many_till' do
     it 'calculates how many minutes till a time 1 hour into the future' do
       t = Time.now + 3600
-      result = described_class.how_many_till("minute", t)
+      result = described_class.how_many_till("minute", t, return_type: "integer")
       expect(result).to eq(60)
     end
 
     it 'calculates how many seconds till a time 10 minutes into the future' do
       t = Time.now + 600
-      result = described_class.how_many_till("minute", t)
+      result = described_class.how_many_till("minute", t, return_type: "integer")
       expect(result).to eq(10)
     end
 
     it 'calculates how many seconds till a certain date in the future' do
       t = Time.now + 3 * 3600 * 24
-      result = described_class.how_many_till("day", t)
+      result = described_class.how_many_till("day", t, return_type: "integer")
       expect(result).to eq(3)
     end
 

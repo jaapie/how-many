@@ -6,7 +6,7 @@ module HowMany
   end
 
   class Calculator
-    def self.how_many_till(to_units, till_time, return_type: "integer")
+    def self.how_many_till(to_units, till_time, return_type: "float")
       answer = till_time - Time.now
       raise DateTimeInPastError.new "error: #{till_time} is in the past" if answer < 0
       self.how_many_in(answer, "second", to_units, return_type: return_type)
