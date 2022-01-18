@@ -12,7 +12,7 @@ module HowMany
     def run(args)
       @options = OptionsParser.parse(args)
       result = if @options.operation == 'till'
-                 Calculator.how_many_till(@options.units_to, Time.parse(""))
+                 Calculator.how_many_till(@options.to_units, @options.till_time)
                elsif @options.operation == 'in'
                  Calculator.how_many_in(@options.from_number, @options.from_units, @options.to_units, return_type: @options.type == "integer" ? "integer" : "float")
                end
