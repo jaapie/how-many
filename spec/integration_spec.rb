@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative('../lib/app')
+require 'app'
+require 'version'
 
 RSpec.describe 'how-many' do
   let(:usage) do
@@ -53,9 +54,15 @@ RSpec.describe 'how-many' do
     end
   end
 
+  describe 'displays program version' do
+    it 'when --version passed' do
+      expect { system('./how-many --version') }.to output("#{HowMany::VERSION}\n").to_stdout_from_any_process
+    end
+  end
+
   describe 'correctly calculates' do
     it 'seconds in hour' do
-      expect { system('./how-many seconds in 1 hour') }.to output('3600.0\n').to_stdout_from_any_process
+      expect { system('./how-many seconds in 1 hour') }.to output("3600.0\n").to_stdout_from_any_process
     end
 
     # it 'how many seconds till 5 seconds from now' do

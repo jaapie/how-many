@@ -3,6 +3,8 @@
 require 'time'
 require 'optparse'
 
+require_relative 'version'
+
 module HowMany
   # parses options
   class OptionsParser
@@ -113,7 +115,7 @@ module HowMany
           exit
         end
         parser.on_tail('-V', '--version', 'show program version') do
-          puts App.version
+          puts HowMany::VERSION
           exit
         end
       end
